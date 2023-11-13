@@ -91,20 +91,6 @@ public class HtmlHttpImageGetter implements ImageGetter {
             placeDrawable.setBounds(0, 0, placeDrawable.getIntrinsicWidth(), placeDrawable.getIntrinsicHeight());
             urlDrawable.setBounds(0, 0, placeDrawable.getIntrinsicWidth(), placeDrawable.getIntrinsicHeight());
             urlDrawable.drawable = placeDrawable;
-        }else {
-            try {
-                Bitmap bitmap = BitmapFactory.decodeStream(
-                        (InputStream) new URL(source).getContent(), null, null);
-                @SuppressWarnings("deprecation")
-                Drawable drawable = new BitmapDrawable(bitmap);
-                float multiplier = (float)(ScreenUtils.getScreenWidth(Utils.getContext())) / (float)drawable.getIntrinsicWidth();
-                int width = (int)(drawable.getIntrinsicWidth() * multiplier);
-                int height = (int)(drawable.getIntrinsicHeight() * multiplier);
-                drawable.setBounds(0, 0, width, height);
-                urlDrawable.drawable = drawable;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         // get the actual source
         ImageGetterAsyncTask asyncTask = new ImageGetterAsyncTask(urlDrawable, this, container,
@@ -131,7 +117,7 @@ public class HtmlHttpImageGetter implements ImageGetter {
         private String source;
         private boolean matchParentWidth;
         private float scale;
-
+        private Drawable drawable;
         private boolean compressImage = false;
         private int qualityImage = 50;
 
@@ -149,7 +135,16 @@ public class HtmlHttpImageGetter implements ImageGetter {
         @Override
         protected Drawable doInBackground(String... params) {
             source = params[0];
-
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(
+                        (InputStream) new URL(source).getContent(), null, null);
+                drawable = new BitmapDrawable(bitmap);
+                int v = ScreenUtils.getScreenWidth(Utils.getContext())/drawable.getIntrinsicWidth();
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v,
+                        drawable.getIntrinsicHeight()*v);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (resources.get() != null) {
                 if (compressImage) {
                     return fetchCompressedDrawable(resources.get(), source);
@@ -175,7 +170,7 @@ public class HtmlHttpImageGetter implements ImageGetter {
             urlDrawable.setBounds(0, 0, (int) (result.getIntrinsicWidth() * scale), (int) (result.getIntrinsicHeight() * scale));
 
             // change the reference of the current drawable to the result from the HTTP call
-            urlDrawable.drawable = result;
+            urlDrawable.drawable = drawable;
 
             final HtmlHttpImageGetter imageGetter = imageGetterReference.get();
             if (imageGetter == null) {
