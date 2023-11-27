@@ -30,7 +30,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ved.framework.utils.ScreenUtils;
-import com.ved.framework.utils.UIUtils;
 import com.ved.framework.utils.Utils;
 
 import java.io.ByteArrayInputStream;
@@ -140,8 +139,7 @@ public class HtmlHttpImageGetter implements ImageGetter {
                         (InputStream) new URL(source).getContent(), null, null);
                 drawable = new BitmapDrawable(bitmap);
                 int v = ScreenUtils.getScreenWidth(Utils.getContext())/drawable.getIntrinsicWidth();
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v,
-                        drawable.getIntrinsicHeight()*v);
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v, 490);
             } catch (IOException e) {
                 e.printStackTrace();
             }
