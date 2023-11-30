@@ -139,7 +139,7 @@ public class HtmlHttpImageGetter implements ImageGetter {
                         (InputStream) new URL(source).getContent(), null, null);
                 drawable = new BitmapDrawable(bitmap);
                 int v = ScreenUtils.getScreenWidth(Utils.getContext())/drawable.getIntrinsicWidth();
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v, 490);
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v, 350);
             } catch (IOException e) {
                 e.printStackTrace();
             }
