@@ -138,8 +138,14 @@ public class HtmlHttpImageGetter implements ImageGetter {
                 Bitmap bitmap = BitmapFactory.decodeStream(
                         (InputStream) new URL(source).getContent(), null, null);
                 drawable = new BitmapDrawable(bitmap);
-                int v = ScreenUtils.getScreenWidth(Utils.getContext())/drawable.getIntrinsicWidth();
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v, 350);
+                int w = ScreenUtils.getScreenWidth(Utils.getContext());
+                int x = drawable.getIntrinsicWidth();
+                if (w >= x){
+                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                }else {
+                    int v = ScreenUtils.getScreenWidth(Utils.getContext())/drawable.getIntrinsicWidth();
+                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v, drawable.getIntrinsicHeight()*v);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
