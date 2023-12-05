@@ -141,7 +141,29 @@ public class HtmlHttpImageGetter implements ImageGetter {
                 int w = ScreenUtils.getScreenWidth(Utils.getContext());
                 int x = drawable.getIntrinsicWidth();
                 if (w >= x){
-                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                    if (x > w*2/3){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                    }else if (x > w/2){
+                        drawable.setBounds(0, 0, (int) Math.round(drawable.getIntrinsicWidth()*1.3), (int) Math.round(drawable.getIntrinsicHeight()*1.3));
+                    }else if (x > w/3){
+                        drawable.setBounds(0, 0, (int) Math.round(drawable.getIntrinsicWidth()*1.6), (int) Math.round(drawable.getIntrinsicHeight()*1.6));
+                    }else if (x > w/4){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*2, drawable.getIntrinsicHeight()*2);
+                    }else if (x > w/5){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*3, drawable.getIntrinsicHeight()*3);
+                    }else if (x > w/6){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*4, drawable.getIntrinsicHeight()*3);
+                    }else if (x > w/7){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*5, (int) Math.round(drawable.getIntrinsicHeight()*3.5));
+                    }else if (x > w/8){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*6, (int) Math.round(drawable.getIntrinsicHeight()*3.5));
+                    }else if (x > w/9){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*7, (int) Math.round(drawable.getIntrinsicHeight()*3.5));
+                    }else if (x > w/10){
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*8, (int) Math.round(drawable.getIntrinsicHeight()*3.5));
+                    }else {
+                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*9, (int) Math.round(drawable.getIntrinsicHeight()*3.5));
+                    }
                 }else {
                     int v = ScreenUtils.getScreenWidth(Utils.getContext())/drawable.getIntrinsicWidth();
                     drawable.setBounds(0, 0, drawable.getIntrinsicWidth()*v, drawable.getIntrinsicHeight()*v);
